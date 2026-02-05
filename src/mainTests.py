@@ -11,7 +11,6 @@ del directorio tests, icluidos los imports, prints, etc....
 # TESTS DE CSV #
 ################
 # tests = testsPersistence()
-
 # tests.testSelect()
 # tests.testInsert()
 # tests.testUpdate()
