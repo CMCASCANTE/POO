@@ -1,1 +1,1 @@
-from .LogicMongo import LogicMongo
+from .logicTarea2.LogicMongo import LogicMongo

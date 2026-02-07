@@ -42,10 +42,10 @@ def insert_test_data():
     # --- 4. ALUMNOS ---
     student_dao = Student_DAO()
     students = [
-        Student("1", "Ana Macario", "1;2;3"),
-        Student("2", "Carlos Martinez", "3;5;6"),
-        Student("3", "Beatriz Binario", "8"),
-        Student("4", "Diego Doner", "2;6"),
+        Student("1", "Ana Macario", ["1", "2", "3"]),
+        Student("2", "Carlos Martinez", ["3", "5", "6"]),
+        Student("3", "Beatriz Binario", ["8"]),
+        Student("4", "Diego Doner", ["2", "6"]),
     ]
     for s in students:
         student_dao.insert(s)
