@@ -11,14 +11,8 @@ class Env_secrets(BaseSettings):
 
     # Añadimos el nombre del secreto como variable
     # y, solo en caso de que no lo encuente, un valor por defecto
-    # (api_key solo es un ejemplo, no se esta usando actualmente)
-    api_key: str = "mi_api"
-
-    # Si no queremos un valor por defecto, no ponemos nada, de manera
-    # que obligamos a que se defina en el .env (ya se gestionará despues
-    # si puede definirse vacía o no)
-    db_user: str
-    db_pass: str
+    # (en este caso con este valor de ejemplo no conectaría a nada, pero es solo para mostrar la sintaxis)
+    db_conn: str = "mongodb+srv://{..."
 
     # Cargamos la configuración de la clase
     model_config = SettingsConfigDict(

@@ -1,4 +1,3 @@
-from tests.testsCSV import testsPersistence
 from tests.testMongo import testsPersistence as testsMongo
 
 """
@@ -7,14 +6,6 @@ Debido a que son pruebas de funcionamiento,
 toda la lógica se encuentra en los archivos 
 del directorio tests, icluidos los imports, prints, etc....
 """
-################
-# TESTS DE CSV #
-################
-# tests = testsPersistence()
-# tests.testSelect()
-# tests.testInsert()
-# tests.testUpdate()
-# tests.testDelete()
 
 ##################
 # TESTS DE MONGO #

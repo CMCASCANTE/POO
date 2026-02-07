@@ -13,7 +13,7 @@ class DAO(DAOI):
         # Usamos la excepción de errores para manejarlos en caso de que falten credenciales, etc
         self.secrets: Env_secrets = Env_secrets()
         # Url de conexión para mongo atlas
-        self.uri = f"mongodb+srv://{self.secrets.db_user}:{self.secrets.db_pass}@proyectopoo.zu6m8ve.mongodb.net/?appName=ProyectoPOO"
+        self.uri = self.secrets.db_conn
         # Creación de la conexión con mongo
         self.client = MongoClient(self.uri, server_api=ServerApi("1"), tls=True)
         # Definimos la colección en la que vamos a trabajar
