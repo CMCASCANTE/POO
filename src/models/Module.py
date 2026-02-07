@@ -14,11 +14,11 @@ class Module(ListEntity):
         self.teacher: Teacher = Teacher(teacher) if teacher else None
 
     # Para poder introducir los datos en Mongo, es necesario que sean de tipo simple
-    # por lo que modificamos la conversión a dict de Module, para que los ids foráneos sean strings
+    # por lo que modificamos los  objetos de ciclos y profesores a string
     def to_dict(self) -> dict:
         # 1. Usamos .copy() para no modificar el objeto original permanentemente
         module_dict = vars(self).copy()
-        # Modificamos el valor del ide de ciclos y profesores, si tiene
+        # Modificamos el valor del id de ciclos y profesores, si tiene
         # para guardarlos como string y mantener la lógica de la app
         if module_dict["cycle"]:
             module_dict["cycle"] = str(module_dict["cycle"])

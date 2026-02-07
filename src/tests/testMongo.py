@@ -1,6 +1,6 @@
 from models.models import Student
 from persistence.persistance import Student_DAO
-from .insertTestData import insert_test_data
+from .insertTestData2 import insert_test_data
 
 
 class testsPersistence:

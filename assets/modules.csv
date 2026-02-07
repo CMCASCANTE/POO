@@ -1,9 +1,0 @@
-id,name,cycle_id,teacher_id
-M1,Sistemas Informáticos,C1,T1
-M2,Bases de Datos,C1,T2
-M3,Programación,C1,T1
-M4,Entornos de Desarrollo,C1,T4
-M5,Desarrollo Web Cliente,C2,T3
-M6,Desarrollo Web Servidor,C2,T2
-M7,Despliegue de Aplicaciones,C2,T3
-M8,Seguridad y Alta Disponibilidad,C3,T4
