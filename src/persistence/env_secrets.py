@@ -3,7 +3,7 @@ from pathlib import Path
 import os
 
 # Obtenemos la ruta de la raíz del proyecto
-BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Clase para cargar los secretos desde un archivo

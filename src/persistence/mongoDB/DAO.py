@@ -1,5 +1,5 @@
 from .DAOI import DAOI
-from .env_secrets import Env_secrets
+from ..env_secrets import Env_secrets
 from models.models import ListEntity
 
 
@@ -43,14 +43,17 @@ class DAO(DAOI):
             print(e)
 
     # Metodo READ ALL
-    def read_all(self) -> list:
+    def read_all(self, criterio: dict = None) -> list:
         # Creamos una lista en la que vamos a almacenar los resultados
         list = []
 
         # Read (Todos los resultados)
         try:
             # collection.find() devuelve un Cursor, que es un iterador eficiente
-            results = self.collection.find()
+            if criterio:
+                results = self.collection.find(criterio)
+            else:
+                results = self.collection.find()
 
             # Verificamos si hay documentos y añadimos los resultados convertidos en objetos
             # En caso de que no haya resultados se devolverá la lista tal y como la hemos iniciado, vacía

@@ -5,6 +5,6 @@ from .ListEntity import ListEntity
 class Cycle(ListEntity):
 
     # Constructor de la clase(con los atributos que hemos definido)
-    def __init__(self, _id, name: str = None):
-        super().__init__(_id)
+    def __init__(self, etiqueta: str, name: str = None):
+        super().__init__(_id=etiqueta)
         self.name: str = name

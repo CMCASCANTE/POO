@@ -7,8 +7,10 @@ from .Teacher import Teacher
 class Module(ListEntity):
 
     # Constructor de la clase(con los atributos que hemos definido)
-    def __init__(self, _id, name: str = None, cycle: str = None, teacher: str = None):
-        super().__init__(_id)
+    def __init__(
+        self, etiqueta: str, name: str = None, cycle: str = None, teacher: str = None
+    ):
+        super().__init__(_id=etiqueta)
         self.name: str = name
         self.cycle: Cycle = Cycle(cycle) if cycle else None
         self.teacher: Teacher = Teacher(teacher) if teacher else None

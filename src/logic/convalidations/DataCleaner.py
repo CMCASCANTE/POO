@@ -3,13 +3,15 @@ import numpy as np
 import re
 from pathlib import Path
 from typing import Optional
+from persistence.persistance import DAO
+from models.models import Convalidation
 
 
 # Clase que normalizará el archivo de convalidaciones
 class DataCleaner:
     def __init__(self, file_name: str):
         # Guardamos directorio y nombre del archivo a normalizar por separado
-        self.folder_path = Path("assets")
+        self.folder_path = Path("../assets")
         self.file_name = file_name
         # Unimos para obtener la ruta completa
         self.file_path = self.folder_path / self.file_name
@@ -54,14 +56,50 @@ class DataCleaner:
         # Condición 3: Cualquier otro caso
         return "NO"
 
+    # Generador de eqtiquetas para nombre de modulos
+    def generate_module_label(self, name: str) -> str:
+        """
+        Convierte el nombre de un modulo en su etiqueta (acrónimo).
+        Filtra conectores comunes y caracteres especiales.
+        """
+        # Si es un nulo o esta vacío devolvemos none
+        if pd.isna(name) or not isinstance(name, str) or name.strip() == "":
+            return None  # O return "" si prefieres evitar nulos en Mongo
+        # Lista de conectores a ignorar en español
+        stop_words = {
+            "y",
+            "e",
+            "o",
+            "u",
+            "de",
+            "del",
+            "la",
+            "las",
+            "el",
+            "los",
+            "en",
+            "para",
+            "con",
+        }
+
+        # Limpiar caracteres especiales y dividir por espacios
+        # Usamos regex para quedarnos solo con letras y espacios
+        clean_name = re.sub(r"[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]", "", name)
+        words = clean_name.split()
+
+        # Filtrar palabras y extraer la primera letra en mayúscula
+        label = "".join(
+            word[0].upper() for word in words if word.lower() not in stop_words
+        )
+
+        return label
+
     def normalize(self) -> pd.DataFrame:
         if self.df is None:
             self.load_data()
 
         # Primero: Sustituir CUALQUIER celda vacía o con espacios por None (NaN en pandas)
         self.df = self.df.replace(r"^\s*$", np.nan, regex=True)
-
-        print(self.df.info())
 
         # 1. Identificamos las columnas fijas (las 3 primeras)
         cols_fijas = self.df.columns[:3].tolist()
@@ -79,40 +117,39 @@ class DataCleaner:
             # Creamos un sub-dataframe con las 3 fijas + el par actual
             # Renombramos las columnas del par para que coincidan al concatenar
             temp_df = self.df[cols_fijas + par].copy()
-            temp_df.columns = cols_fijas + ["Módulo", "Nota"]
+            temp_df.columns = cols_fijas + ["Modulo", "Nota"]
             dfs_temporales.append(temp_df)
 
         # 4. Concatenamos todos los bloques verticalmente
         df_final = pd.concat(dfs_temporales, ignore_index=True)
 
-        print(df_final.info())
-
         # 5. Opcional: Eliminar filas donde los datos nuevos estén vacíos (NaN)
-        # df_final = df_final.dropna(subset=["Módulo", "Nota"], how="all")
+        # df_final = df_final.dropna(subset=["Modulo", "Nota"], how="all")
 
         # 6. Aplicamos la función a la columna dato_2
-        # df_final["Nota"] = df_final["Nota"].apply(self.transformar_dato_2)
         df_final["Nota"] = df_final["Nota"].apply(self.limpiar_valor_dato2)
 
-        # Guardar resultado
-        df_final.to_excel("resultado_reestructurado.xlsx", index=False)
-        # print(df_final.head())
-        print(df_final.info())
-        print(df_final.head(10))
+        # 7. Modificamos la columna de modulo con la etiqueta que
+        # tendremos definida en nuestra base de datos
+        df_final["Modulo"] = df_final["Modulo"].apply(self.generate_module_label)
 
-    def save_to_csv(self, output_path: str):
-        if self.df is not None:
-            self.df.to_csv(output_path, index=False, encoding="utf-8-sig")
+        # **Opcional: Cambiamos el nombre de los campos a minuscula
+        df_final.columns = df_final.columns.str.lower()
 
+        # Sustituimos el dataset normalizado
+        self.df = df_final
 
-if __name__ == "__main__":
-    # Importante: Asegúrate de tener instalada la librería openpyxl
-    cleaner = DataCleaner("ejemplo.xlsx")
-    try:
-        df_result = cleaner.normalize()
-        print("✅ Archivo detectado como Excel y normalizado correctamente.")
-        print(f"Registros finales: {len(df_result)}")
-        print(df_result.head())
-        cleaner.save_to_csv("datos_normalizados2.csv")
-    except Exception as e:
-        print(f"❌ Error: {e}")
+        # Devolvemos el objeto para poder seguir operando con él
+        return self
+
+    # Función para subir los datos (se tienen que limpiar primero)
+    # a mongo atlas
+    def upData(self):
+        # Abrir conexión
+        db_con: DAO = DAO()
+
+        # Orient='records' crea una lista de diccionarios: [{col: val}, {col: val}]
+        data_dict = self.df.to_dict(orient="records")
+
+        # Metemos todos los dicts en mongodb y devolvemso el resultado
+        return db_con.insert_all(data_dict)
