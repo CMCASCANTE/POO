@@ -1,5 +1,5 @@
 from .DAOI import DAOI
-from ..env_secrets import Env_secrets
+from .env_secrets import Env_secrets
 from models.models import ListEntity
 
 

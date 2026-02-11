@@ -11,7 +11,6 @@ del directorio tests, icluidos los imports, prints, etc....
 # TESTS DE MONGO #
 ##################
 tests = testsMongo()
-
 tests.init_test_data()
 
 tests.testRead()

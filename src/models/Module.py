@@ -1,6 +1,7 @@
 from .ListEntity import ListEntity
 from .Cycle import Cycle
 from .Teacher import Teacher
+from bson import ObjectId
 
 
 # Creación de la clase para los modulos
@@ -8,9 +9,15 @@ class Module(ListEntity):
 
     # Constructor de la clase(con los atributos que hemos definido)
     def __init__(
-        self, etiqueta: str, name: str = None, cycle: str = None, teacher: str = None
+        self,
+        _id: ObjectId = None,
+        etiqueta: str = None,
+        name: str = None,
+        cycle: str = None,
+        teacher: str = None,
     ):
-        super().__init__(_id=etiqueta)
+        super().__init__(_id=ObjectId(_id) if _id else ObjectId())
+        self.etiqueta: str = etiqueta
         self.name: str = name
         self.cycle: Cycle = Cycle(cycle) if cycle else None
         self.teacher: Teacher = Teacher(teacher) if teacher else None

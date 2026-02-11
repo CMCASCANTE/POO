@@ -33,7 +33,7 @@ class ListEntity:
 
     # Mostrar con srt()
     def __str__(self) -> str:
-        return self._id
+        return str(self._id)
 
     # Mostrar al printear el objeto
     def __repr__(self) -> str:

@@ -3,12 +3,13 @@ import numpy as np
 import re
 from pathlib import Path
 from typing import Optional
-from persistence.persistance import DAO
 from models.models import Convalidation
 
 
 # Clase que normalizará el archivo de convalidaciones
 class DataCleaner:
+
+    # Iniciamos el objeto con el directorio y el archivo excel
     def __init__(self, file_name: str):
         # Guardamos directorio y nombre del archivo a normalizar por separado
         self.folder_path = Path("../assets")
@@ -20,9 +21,7 @@ class DataCleaner:
 
     # función para cargar el excel de manera correcta
     def load_data(self) -> pd.DataFrame:
-        """
-        Carga el archivo detectando si es un Excel real aunque la extensión confunda.
-        """
+        # Carga el archivo detectando si es un Excel real aunque la extensión confunda.
         try:
             # Forzamos la lectura como Excel ya que el debug mostró cabeceras PK (ZIP/Excel)
             self.df = pd.read_excel(self.file_path)
@@ -35,8 +34,12 @@ class DataCleaner:
         self.df.columns = [str(c).strip() for c in self.df.columns]
         return self.df
 
-    # Definimos la lógica de limpieza de forma independiente
-    def limpiar_valor_dato2(self, valor):
+    # Definimos la lógica de limpieza de los valores de forma independiente
+    # Vamos a dejar los nulos como estan (si es necesario ya los eliminaremos despues)
+    # Todo lo que sea una convalidación sin nota lo dejamos como 5, que es la nota por defecto
+    # Y todo lo que tenga una nota, dejamos solo la nota
+    # En cualquier otor caso, se dejará como NO
+    def limpiar_valor_datos(self, valor):
         # Manejo de valores nulos (NaN)
         if pd.isna(valor):
             return valor
@@ -56,15 +59,13 @@ class DataCleaner:
         # Condición 3: Cualquier otro caso
         return "NO"
 
-    # Generador de eqtiquetas para nombre de modulos
+    # Generador de etiquetas para nombre de modulos
+    # Convertimos el nombre de los módulos en sus siglas
+    # para identificarlos de manera mas sencilla y acorde al modelo
     def generate_module_label(self, name: str) -> str:
-        """
-        Convierte el nombre de un modulo en su etiqueta (acrónimo).
-        Filtra conectores comunes y caracteres especiales.
-        """
         # Si es un nulo o esta vacío devolvemos none
         if pd.isna(name) or not isinstance(name, str) or name.strip() == "":
-            return None  # O return "" si prefieres evitar nulos en Mongo
+            return None
         # Lista de conectores a ignorar en español
         stop_words = {
             "y",
@@ -92,9 +93,12 @@ class DataCleaner:
             word[0].upper() for word in words if word.lower() not in stop_words
         )
 
+        # Devolvemos la etiqueta resultante
         return label
 
+    # Normalizado del excel
     def normalize(self) -> pd.DataFrame:
+        # Si no hay dataset guardado lo cargamos
         if self.df is None:
             self.load_data()
 
@@ -123,33 +127,26 @@ class DataCleaner:
         # 4. Concatenamos todos los bloques verticalmente
         df_final = pd.concat(dfs_temporales, ignore_index=True)
 
-        # 5. Opcional: Eliminar filas donde los datos nuevos estén vacíos (NaN)
-        # df_final = df_final.dropna(subset=["Modulo", "Nota"], how="all")
+        # Eliminar filas donde los datos nuevos estén vacíos (NaN)
+        df_final = df_final.dropna(subset=["Modulo", "Nota"], how="all")
 
-        # 6. Aplicamos la función a la columna dato_2
-        df_final["Nota"] = df_final["Nota"].apply(self.limpiar_valor_dato2)
+        # 6. Aplicamos la función de limpiar datos a la columna Nota
+        df_final["Nota"] = df_final["Nota"].apply(self.limpiar_valor_datos)
 
         # 7. Modificamos la columna de modulo con la etiqueta que
         # tendremos definida en nuestra base de datos
         df_final["Modulo"] = df_final["Modulo"].apply(self.generate_module_label)
 
         # **Opcional: Cambiamos el nombre de los campos a minuscula
+        # para que no nos de problemas al convertir a modelo desde mongo y viceversa
         df_final.columns = df_final.columns.str.lower()
 
-        # Sustituimos el dataset normalizado
-        self.df = df_final
-
-        # Devolvemos el objeto para poder seguir operando con él
-        return self
-
-    # Función para subir los datos (se tienen que limpiar primero)
-    # a mongo atlas
-    def upData(self):
-        # Abrir conexión
-        db_con: DAO = DAO()
-
+        # Creamos una lista de diccionarios para poder trabajar con el
         # Orient='records' crea una lista de diccionarios: [{col: val}, {col: val}]
-        data_dict = self.df.to_dict(orient="records")
+        dict_convalidations = df_final.to_dict(orient="records")
 
-        # Metemos todos los dicts en mongodb y devolvemso el resultado
-        return db_con.insert_all(data_dict)
+        # Convertimos los diccionarios en una lista de objetos
+        list_obj = [Convalidation.from_dict(conv) for conv in dict_convalidations]
+
+        # Devolvemos la lista de objetos
+        return list_obj

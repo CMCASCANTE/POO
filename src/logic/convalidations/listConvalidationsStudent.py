@@ -1,13 +1,12 @@
-from persistence.persistance import DAO
+from persistence.persistance import Convalidation_DAO
 
 
-class ListConvalidations:
+class ListConvalidationsStudent:
 
     def __init__(self):
-        self.db_con = DAO()
+        self.db_con = Convalidation_DAO()
 
     def lista_convalidations_student(self, Student):
-        # l = [self.db_con.read_all()]
-        # print(l)
         lista_convs = self.db_con.read_all({"dni": str(Student)})
+        print(lista_convs)
         return lista_convs

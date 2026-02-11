@@ -1,12 +1,10 @@
-from persistence.env_secrets import Env_secrets
+from persistence.mongoDB.env_secrets import Env_secrets
 from models.models import ListEntity, Convalidation
-
-
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
 
-class DAO:
+class Convalidation_DAO:
     def __init__(self, entity_name: str = "convalidations"):
         # Cargamos los secretos desde la clase que hemos definido para ello
         # Usamos la excepción de errores para manejarlos en caso de que falten credenciales, etc
@@ -20,18 +18,20 @@ class DAO:
         # Definimos la clase de la entidad correspondiente para las operaciones
         self.T: ListEntity = Convalidation
 
-    # Metodo INSERT
-    def insert_all(self, lista_datos: list[dict]) -> bool:
+    # Metodo INSERT_MANY
+    def insert_all(self, lista_datos: list[Convalidation]) -> bool:
         # Realizamos el insert de la entidad
+        lista_dict: list[dict] = [elm.to_dict() for elm in lista_datos]
+
         try:
             # Inserción masiva para mayor eficiencia
             if lista_datos:
-                result = self.collection.insert_many(lista_datos)
+                result = self.collection.insert_many(lista_dict)
                 return result.inserted_ids
             return []
 
         except Exception as e:
-            return e
+            print(e)
 
     # Metodo READ ALL
     def read_all(self, criterio: dict = None) -> list:

@@ -1,3 +1,4 @@
 from .logicTarea2.LogicMongo import LogicMongo
-from .convalidations.DataCleaner import DataCleaner
-from .convalidations.listConvalidations import ListConvalidations
+from .convalidations.dataCleaner import DataCleaner
+from .convalidations.listConvalidationsStudent import ListConvalidationsStudent
+from .convalidations.dataLoader import DataLoader
