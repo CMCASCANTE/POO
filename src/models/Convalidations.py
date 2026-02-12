@@ -10,6 +10,7 @@ class Convalidation(ListEntity):
     # Constructor de la clase(con los atributos que hemos definido)
     def __init__(
         self,
+        *,
         _id: ObjectId = None,
         alumno: str = None,
         dni: str = None,
@@ -20,10 +21,13 @@ class Convalidation(ListEntity):
         super().__init__(_id)
         self.alumno: str = alumno
         self.dni: str = dni
-        self.ciclo: Cycle = ciclo
-        self.modulo: Module = modulo
+        self.ciclo: Cycle = Cycle(etiqueta=ciclo)
+        self.modulo: Module = Module(etiqueta=modulo)
         self.nota: str = nota
-        self.estado: Status = Status(nota)
+
+    @property
+    def estado(self):
+        return Status(self.nota)
 
     # Para poder introducir los datos en Mongo, es necesario que sean de tipo simple
     # por lo que modificamos los  objetos de ciclos y profesores a string
@@ -33,10 +37,10 @@ class Convalidation(ListEntity):
         # Modificamos el valor del id de ciclos y profesores, si tiene
         # para guardarlos como string y mantener la lógica de la app
         if conv_dict["ciclo"]:
-            conv_dict["ciclo"] = str(conv_dict["cycle"])
+            conv_dict["ciclo"] = str(conv_dict["ciclo"])
 
         if conv_dict["modulo"]:
-            conv_dict["modulo"] = str(conv_dict["teacher"])
+            conv_dict["modulo"] = str(conv_dict["modulo"])
         # Devolvemos los datos en un dict ya modificados
         return conv_dict
 

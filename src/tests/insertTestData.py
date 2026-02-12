@@ -198,6 +198,7 @@ def insert_test_data():
             dni="55555555F", name="Fernando Frame", modules=["AD", "DI", "PMM", "SGE"]
         ),
         Student(dni="6666666G", name="Gema Gigabyte", modules=["ASO", "SRI", "IAW"]),
+        Student(dni="9999999J", name="Zaf byte", modules=["ASO", "SRI", "IAW", "TDC"]),
     ]
     for s in students:
         student_dao.insert(s)

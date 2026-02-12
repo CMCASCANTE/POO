@@ -42,7 +42,7 @@ class DAO(DAOI):
         except Exception as e:
             print(e)
 
-    # Metodo READ ALL
+    # Metodo READ ALL or con un criterio concreto
     def read_all(self, criterio: dict = None) -> list:
         # Creamos una lista en la que vamos a almacenar los resultados
         list = []

@@ -41,4 +41,4 @@ class Module(ListEntity):
 
     # Sobreescribimos Mostrar con srt() para que se muestre la etiqueta
     def __str__(self) -> str:
-        return self.etiqueta
+        return self.etiqueta if isinstance(self.etiqueta, str) else "Desconocido"

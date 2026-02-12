@@ -3,7 +3,7 @@ import numpy as np
 import re
 from pathlib import Path
 from typing import Optional
-from persistence.persistance import DAO
+from persistence.persistance import Convalidation_DAO
 from models.models import Convalidation
 
 
@@ -137,7 +137,7 @@ class DataCleaner:
         df_final.columns = df_final.columns.str.lower()
 
         # Orient='records' crea una lista de diccionarios: [{col: val}, {col: val}]
-        data_dict = df_final(orient="records")
+        data_dict = df_final.to_dict(orient="records")
 
         # Devolvemos el objeto para poder seguir operando con él
         return data_dict

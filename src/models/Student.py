@@ -33,6 +33,7 @@ class Student(ListEntity):
 
         # Sacamos la lista de convalidaciones de la lógica y la guardamos
         convalidations = ListConvalidations()
+
         return convalidations.lista_convalidations_student(self)
 
     def to_dict(self) -> dict:

@@ -4,12 +4,12 @@ from models.models import Student
 data = DataCleaner("ejemplo.xlsx")
 upData(data.normalize())
 
-stud = Student("11111111B")
-
-stud.set_convalidations()
-
+stud = Student(dni="11111111B")
 print(stud.convalidations)
+# print(stud)
 
-print("-" * 40)
-for elm in stud.convalidations:
-    print(elm.ciclo)
+# print(stud.convalidations)
+
+# print("-" * 40)
+# for elm in stud.convalidations:
+#     print(elm.ciclo)
