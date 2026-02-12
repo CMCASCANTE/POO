@@ -6,7 +6,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
 
-class DAO:
+class Convalidation_DAO:
     def __init__(self, entity_name: str = "convalidations"):
         # Cargamos los secretos desde la clase que hemos definido para ello
         # Usamos la excepción de errores para manejarlos en caso de que falten credenciales, etc

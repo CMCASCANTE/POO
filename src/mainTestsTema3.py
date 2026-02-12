@@ -1,8 +1,8 @@
-from logic.logic import DataCleaner
+from logic.logic import DataCleaner, upData
 from models.models import Student
 
-# data = DataCleaner("ejemplo.xlsx")
-# data.normalize().upData()
+data = DataCleaner("ejemplo.xlsx")
+upData(data.normalize())
 
 stud = Student("11111111B")
 

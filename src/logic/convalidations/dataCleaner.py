@@ -124,7 +124,7 @@ class DataCleaner:
         df_final = pd.concat(dfs_temporales, ignore_index=True)
 
         # 5. Opcional: Eliminar filas donde los datos nuevos estén vacíos (NaN)
-        # df_final = df_final.dropna(subset=["Modulo", "Nota"], how="all")
+        df_final = df_final.dropna(subset=["Modulo", "Nota"], how="all")
 
         # 6. Aplicamos la función a la columna dato_2
         df_final["Nota"] = df_final["Nota"].apply(self.limpiar_valor_dato2)
@@ -136,20 +136,8 @@ class DataCleaner:
         # **Opcional: Cambiamos el nombre de los campos a minuscula
         df_final.columns = df_final.columns.str.lower()
 
-        # Sustituimos el dataset normalizado
-        self.df = df_final
+        # Orient='records' crea una lista de diccionarios: [{col: val}, {col: val}]
+        data_dict = df_final(orient="records")
 
         # Devolvemos el objeto para poder seguir operando con él
-        return self
-
-    # Función para subir los datos (se tienen que limpiar primero)
-    # a mongo atlas
-    def upData(self):
-        # Abrir conexión
-        db_con: DAO = DAO()
-
-        # Orient='records' crea una lista de diccionarios: [{col: val}, {col: val}]
-        data_dict = self.df.to_dict(orient="records")
-
-        # Metemos todos los dicts en mongodb y devolvemso el resultado
-        return db_con.insert_all(data_dict)
+        return data_dict
