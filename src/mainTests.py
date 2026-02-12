@@ -12,7 +12,7 @@ del directorio tests, icluidos los imports, prints, etc....
 ##################
 tests = testsMongo()
 
-tests.init_test_data()
+# tests.init_test_data()
 
 tests.testRead()
 tests.testInsert()

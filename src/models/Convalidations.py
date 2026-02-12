@@ -2,6 +2,7 @@ from .Cycle import Cycle
 from .Module import Module
 from .Status import Status
 from .ListEntity import ListEntity
+from bson import ObjectId
 
 
 class Convalidation(ListEntity):
@@ -9,7 +10,7 @@ class Convalidation(ListEntity):
     # Constructor de la clase(con los atributos que hemos definido)
     def __init__(
         self,
-        _id,
+        _id: ObjectId = None,
         alumno: str = None,
         dni: str = None,
         ciclo: Cycle = None,

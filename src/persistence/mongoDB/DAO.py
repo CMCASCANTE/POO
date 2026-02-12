@@ -25,11 +25,11 @@ class DAO(DAOI):
     def read(self, entity: ListEntity) -> ListEntity:
         # Comprobamos que el objeto es del tipo correcto
         if isinstance(entity, self.T) is False:
-            return False
+            return None
         # Read
         try:
             # collection.find() devuelve un Cursor, que es un iterador eficiente ;)
-            result = self.collection.find_one({"_id": str(entity)})
+            result = self.collection.find_one({"dni": str(entity)})
 
             # Verificamos si hay documentos y añadimos los resultados convertidos en objetos
             # En caso de que no haya resultados se devolverá la lista tal y como la hemos iniciado, vacía
@@ -59,8 +59,9 @@ class DAO(DAOI):
             # En caso de que no haya resultados se devolverá la lista tal y como la hemos iniciado, vacía
             if results:
                 list = [self.T.from_dict(elm) for elm in results]
+
         except Exception as e:
-            print(e)
+            return None
 
         return list
 
@@ -70,34 +71,42 @@ class DAO(DAOI):
         if isinstance(entity, self.T) is False:
             return False
 
+        # ya que estamos usando objectID como ID, vamos a comprobar
+        # antes de insertar si la entidad existe
+        # Damos por echo que se le va a pasar un dni, que igualmente debería
+        # ser único y así lo indicaremos en nuestro front
+        if self.read(entity):
+            return False
+
         # Realizamos el insert de la entidad
         try:
             self.collection.insert_one(entity.to_dict())
             # devolvemos un true si todo ha ido bien
             return True
         except Exception as e:
-            print(e)
-
-        # Si no ha devuelto el True, devolvemos False
-        return False
+            return False
 
     # Método UPDATE
     def update(self, entity: ListEntity) -> bool:
         # Comprobamos que el objeto es del tipo correcto
         if isinstance(entity, self.T) is False:
             return False
+
+        # MongoDB no permite modificar el _id de un documento existente,
+        # por lo que ya que estamos usando estos IDs, lo eliminamos del objeto que le hemos pasado
+        update_obj = entity.to_dict()
+        if "_id" in update_obj:
+            del update_obj["_id"]
+
         # Lanzamos el delete para que coincida con la entidad que se ha proporcionado
         try:
             self.collection.update_one(
-                filter={"_id": str(entity)}, update={"$set": entity.to_dict()}
+                filter={"dni": str(entity)}, update={"$set": update_obj}
             )
             # devolvemos un true si todo ha ido bien
             return True
         except Exception as e:
-            print(e)
-
-        # Si no ha devuelto el True, devolvemos False
-        return False
+            return False
 
     # Método DELETE
     def delete(self, entity: ListEntity) -> bool:
@@ -106,14 +115,12 @@ class DAO(DAOI):
             return False
         # Realizamos el delete según la entidad
         try:
-            self.collection.delete_one({"_id": str(entity)})
+            self.collection.delete_one({"dni": str(entity)})
             # self.collection.delete_many({"name": "Carlos Martinez"})
             # devolvemos un true si todo ha ido bien
             return True
         except Exception as e:
-            print(e)
-        # Si no ha devuelto el True, devolvemos False
-        return False
+            return False
 
     # Cerramos la conexión
     def close(self):
