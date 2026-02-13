@@ -14,17 +14,14 @@ class Presentacion:
         conn_conv = Convalidation_DAO()
         conn_stud = Student_DAO()
         # Creamos el criterio para la búsqueda de las convalidaciones, en base a los objetos
-        criterio = {"modulo": modulo.etiqueta, "ciclo": ciclo.etiqueta}
-        # criterio = {"ciclo": ciclo.etiqueta}
-
+        criterio = {"modulo": str(modulo), "ciclo": str(ciclo)}
         # Creamos una lista de convalidaciones que cumplan con los criterios
         lista_convalidaciones: list[Convalidation] = conn_conv.read_all(criterio)
-
         # Creamos la lista de estudiantes a partir de un set de dnis
         # de las convalidaciones para que no se repitan los resultados
         # Y solo cogemos aqueyas cuyo estado sea "estimada"
         lista_estudiantes: list[Student] = [
-            conn_stud.read(Student(dni=dni))
+            conn_stud.read(Student(_id=dni))
             for dni in {
                 obj.dni
                 for obj in lista_convalidaciones
@@ -34,11 +31,12 @@ class Presentacion:
 
         # Devolvemos la lista de estudiantes (comprobando que exista,
         # por si ha devuelto algún nulo, que no debería pero...)
-        return [f"{stud.dni} - {stud.name}" for stud in lista_estudiantes if stud]
+        return [f"{stud} - {stud.name}" for stud in lista_estudiantes if stud]
 
     # Función para crear csvs en base a los modulos convalidados
     def estimadasCSV(self):
         conn = Convalidation_DAO()
+
         lista_estaminadas = [
             conv for conv in conn.read_all() if str(conv.estado) == "estimada"
         ]
@@ -48,7 +46,7 @@ class Presentacion:
 
         for conv in lista_estaminadas:
             # Usamos la etiqueta del módulo como nombre de archivo
-            nombre_modulo = conv.modulo.etiqueta if conv.modulo else "Desconocido"
+            nombre_modulo = conv.modulo if conv.modulo else "Desconocido"
 
             if nombre_modulo not in agrupado:
                 agrupado[nombre_modulo] = []
@@ -59,6 +57,7 @@ class Presentacion:
         # Indicamos la ruta donde se van a guardar
         ruta_base = os.path.join("..", "assets", "modulos")
         # Creamos un CSV por cada grupo encontrado
+
         for modulo, alumnos in agrupado.items():
             if alumnos:
                 # Generamos los archivos y los creamos con pandas

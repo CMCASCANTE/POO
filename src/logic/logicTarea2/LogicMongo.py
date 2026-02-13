@@ -37,8 +37,10 @@ class LogicMongo(PresentationI):
     # Obtener el profesor de un módulo
     def get_teacher_by_module(self, module: Module) -> Teacher:
         dao = Module_DAO()
+
         # Cargamos el módulo que coincida con el que estamos buscando
         module = dao.read(module)
+
         dao = Teacher_DAO()
         # Cargamos el profesor que coincida con el profesor del módulo si hay módulo
         teacher = dao.read(module.teacher) if module else None

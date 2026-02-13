@@ -32,10 +32,10 @@ while True:
 
     elif opcion == "2":
         # Obtenemos el ID del ciclo (en caso de no ser válido no se mostrarán resultados)
-        id_ciclo = input("Dime el ID del ciclo (ej. 1,2...): ")
+        id_ciclo = input("Dime la etiqueta del ciclo (ej. ASIR,DAW...): ")
         # Creamos un objeto a partir del ID para comparar en las búsquedas
-        ciclo = Cycle(id_ciclo.capitalize())
-        print(f"\n--- Módulos del ciclo con ID: {ciclo} ---")
+        ciclo = Cycle(_id=id_ciclo.upper())
+        print(f"\n--- Módulos del ciclo: {ciclo} ---")
         # Cargamos la función correspondiente que devuelve la lista con todos los modulos
         lista = logic.get_modules_by_cycle(ciclo)
         # Recorremos la lista de objetos y mostramos cada uno con la función to_list()
@@ -45,9 +45,9 @@ while True:
 
     elif opcion == "3":
         # Obtenemos el ID del módulo (en caso de no ser válido no se mostrarán resultados)
-        id_modulo = input("Dime el ID del módulo (ej. 1,2...): ")
-        modulo = Module(id_modulo.capitalize())
-        print(f"\n--- Profesor del módulo con ID: {modulo} ---")
+        id_modulo = input("Dime la etiqueta del módulo (ej. MME, IC...): ")
+        modulo = Module(_id=id_modulo.upper())
+        print(f"\n--- Profesor del módulo: {modulo} ---")
         # Cargamos la función correspondiente que devuelve el profesor del módulo
         profe = logic.get_teacher_by_module(modulo)
         # Mostramos el profesor con la función to_list() o un mensaje de no encontrado si es None
@@ -55,9 +55,9 @@ while True:
 
     elif opcion == "4":
         # Obtenemos el ID del módulo (en caso de no ser válido no se mostrarán resultados)
-        id_modulo = input("Dime el ID del módulo (ej. 1,2...): ")
-        modulo = Module(id_modulo.capitalize())
-        print(f"\n--- Estudiantes en modulo con ID: {modulo} ---")
+        id_modulo = input("Dime la etiqueta del módulo (ej. MME,IC...): ")
+        modulo = Module(_id=id_modulo.upper())
+        print(f"\n--- Estudiantes en modulo: {modulo} ---")
         # Cargamos la función correspondiente que devuelve la lista con todos los estudiantes
         lista = logic.get_students_by_module(modulo)
         # Recorremos la lista de objetos y mostramos cada uno con la función to_list()
@@ -67,9 +67,9 @@ while True:
 
     elif opcion == "5":
         # Obtenemos el ID del alumno (en caso de no ser válido no se mostrarán resultados)
-        id_alumno = input("Dime el ID del alumno (ej. 1,2...): ")
-        alumno = Student(id_alumno.capitalize())
-        print(f"\n--- Expediente de alumno con ID: {alumno} ---")
+        id_alumno = input("Dime el dni del alumno: ")
+        alumno = Student(_id=id_alumno.upper())
+        print(f"\n--- Expediente de alumno con dni: {alumno} ---")
         # Cargamos la función correspondiente que devuelve la lista con todos los modulos + ciclos
         lista = logic.get_student_modules_and_cycle(alumno)
         # Recorremos la lista de objetos y mostramos cada uno con la función to_list()

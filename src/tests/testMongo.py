@@ -15,7 +15,7 @@ class testsPersistence:
         print(*"-" * 20)
         print("read")
         print(*"-" * 20)
-        alrdy_student = Student(dni="55555555F")
+        alrdy_student = Student(_id="55555555F")
         student = self.dao.read(alrdy_student)
         print(student.to_list())
 
@@ -24,7 +24,7 @@ class testsPersistence:
         print("INSERT")
         print(*"-" * 20)
         new_student = Student(
-            dni="5", name="Juan Profesor", modules=["MIA", "SBD", "PIAR"]
+            _id="5", name="Juan Profesor", modules=["MIA", "SBD", "PIAR"]
         )
         print(f"Insert = {self.dao.insert(new_student)}")
         list = self.dao.read_all()
@@ -36,7 +36,7 @@ class testsPersistence:
         print("UPDATE")
         print(*"-" * 20)
         updated_student = Student(
-            dni="5", name="Juan Profesor Actualizado", modules=["MIA", "SBD"]
+            _id="5", name="Juan Profesor Actualizado", modules=["MIA", "SBD"]
         )
         print(f"Update = {self.dao.update(updated_student)}")
         list = self.dao.read_all()
@@ -47,7 +47,7 @@ class testsPersistence:
         print(*"-" * 20)
         print("DELETE")
         print(*"-" * 20)
-        updated_student = Student(dni="5")
+        updated_student = Student(_id="5")
         print(f"Delete = {self.dao.delete(updated_student)}")
         list = self.dao.read_all()
         for t in list:

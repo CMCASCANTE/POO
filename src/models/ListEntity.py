@@ -1,12 +1,9 @@
-from bson import ObjectId
-
-
 # Clase genérica para la creación de objetos desde listas y viceversa
 class ListEntity:
 
     # Constructor, tendrá el ID para todas las clases hijo
-    def __init__(self, _id: ObjectId):
-        self._id: ObjectId = _id if _id else ObjectId()
+    def __init__(self, _id: str):
+        self._id: str = _id
 
     # Métodos de clase
     # Añadimos el decorador classmethod para indicar que es un método de clase

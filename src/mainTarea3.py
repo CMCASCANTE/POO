@@ -44,15 +44,11 @@ while True:
     if opcion == "1":
         ciclo = input("Introduce el código del Ciclo (ej. GA): ").upper()
         modulo = input("Introduce el código del Módulo (ej. TDC): ").upper()
-        ciclo_obj = Cycle(etiqueta=ciclo)
-        modulo_obj = Module(etiqueta=modulo)
-
+        ciclo_obj = Cycle(_id=ciclo)
+        modulo_obj = Module(_id=modulo)
         lista_alumnos = presentacion.alumnosCicloModulo(ciclo_obj, modulo_obj)
-
-        print("")
         print(f"Lista de alúmnos con la convalidación de {modulo} aceptada")
         print(lista_alumnos)
-        print("")
 
         input("Pulsa una tecla para continuar...")
 
@@ -75,13 +71,13 @@ while True:
     elif opcion == "3":
         print("")
         dni = input("Introduzca el DNI del alumno: ").upper()
-        lista_convs = presentacion.convalidaciones_alumno(Student(dni=dni))
+        lista_convs = presentacion.convalidaciones_alumno(Student(_id=dni))
 
         if lista_convs:
             print("")
             print(f"\nConvalidaciones de {lista_convs[0].alumno} ({dni}):")
             for conv in lista_convs:
-                print(f"[{conv.ciclo.etiqueta}] {conv.modulo.etiqueta}: {conv.estado}")
+                print(f"[{conv.ciclo}] {conv.modulo}: {conv.estado}")
             input("Pulsa una tecla para continuar...")
         else:
             print("")
@@ -90,7 +86,7 @@ while True:
     elif opcion == "4":
         print("")
         dni = input("Introduzca el DNI del alumno: ").upper()
-        conv = presentacion.todas_convalidadas(Student(dni=dni))
+        conv = presentacion.todas_convalidadas(Student(_id=dni))
         print("")
         if conv:
             print("Todas las convalidaciones del alumno han sido estimadas")

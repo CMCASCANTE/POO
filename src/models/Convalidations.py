@@ -21,8 +21,8 @@ class Convalidation(ListEntity):
         super().__init__(_id)
         self.alumno: str = alumno
         self.dni: str = dni
-        self.ciclo: Cycle = Cycle(etiqueta=ciclo)
-        self.modulo: Module = Module(etiqueta=modulo)
+        self.ciclo: Cycle = Cycle(_id=ciclo)
+        self.modulo: Module = Module(_id=modulo)
         self.nota: str = nota
 
     @property

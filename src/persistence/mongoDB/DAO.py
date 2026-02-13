@@ -24,12 +24,18 @@ class DAO(DAOI):
     # Metodo READ
     def read(self, entity: ListEntity) -> ListEntity:
         # Comprobamos que el objeto es del tipo correcto
-        if isinstance(entity, self.T) is False:
+        if (
+            isinstance(
+                entity,
+                self.T,
+            )
+            is False
+        ):
             return None
         # Read
         try:
             # collection.find() devuelve un Cursor, que es un iterador eficiente ;)
-            result = self.collection.find_one({"dni": str(entity)})
+            result = self.collection.find_one({"_id": str(entity)})
 
             # Verificamos si hay documentos y añadimos los resultados convertidos en objetos
             # En caso de que no haya resultados se devolverá la lista tal y como la hemos iniciado, vacía
@@ -92,20 +98,15 @@ class DAO(DAOI):
         if isinstance(entity, self.T) is False:
             return False
 
-        # MongoDB no permite modificar el _id de un documento existente,
-        # por lo que ya que estamos usando estos IDs, lo eliminamos del objeto que le hemos pasado
-        update_obj = entity.to_dict()
-        if "_id" in update_obj:
-            del update_obj["_id"]
-
         # Lanzamos el delete para que coincida con la entidad que se ha proporcionado
         try:
             self.collection.update_one(
-                filter={"dni": str(entity)}, update={"$set": update_obj}
+                filter={"_id": str(entity)}, update={"$set": entity.to_dict()}
             )
             # devolvemos un true si todo ha ido bien
             return True
         except Exception as e:
+            print(e)
             return False
 
     # Método DELETE
@@ -115,7 +116,7 @@ class DAO(DAOI):
             return False
         # Realizamos el delete según la entidad
         try:
-            self.collection.delete_one({"dni": str(entity)})
+            self.collection.delete_one({"_id": str(entity)})
             # self.collection.delete_many({"name": "Carlos Martinez"})
             # devolvemos un true si todo ha ido bien
             return True

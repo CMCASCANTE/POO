@@ -1,7 +1,5 @@
 from .ListEntity import ListEntity
 from .Module import Module
-from .Convalidations import Convalidation
-from bson import ObjectId
 
 
 # Creación de la clase para los estudiantes
@@ -12,18 +10,16 @@ class Student(ListEntity):
     def __init__(
         self,
         *,
-        _id: ObjectId = None,
-        dni: str = None,
+        _id: str = None,
         name: str = None,
         modules: str = None,
     ):
         super().__init__(_id)
-        self.dni: str = dni
         self.name: str = name
         # Los módulos se guardan como un string separado por ; por lo que
         # lo dividimos y guardamos cada uno como un objeto en una lista
         self.modules: list[Module] = (
-            [Module(etiqueta=mod) for mod in modules] if modules else None
+            [Module(_id=mod) for mod in modules] if modules else None
         )
 
     # Función para cargar las convalidaciones del alumno
@@ -45,7 +41,3 @@ class Student(ListEntity):
             stud_dict["modules"] = [str(mod) for mod in stud_dict["modules"]]
         # Devolvemos los datos en un dict ya modificados
         return stud_dict
-
-    # Sobreescribimos Mostrar con srt() para que se muestre el dni
-    def __str__(self) -> str:
-        return self.dni

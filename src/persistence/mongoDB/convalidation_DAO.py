@@ -42,7 +42,6 @@ class Convalidation_DAO:
         try:
             # collection.find() devuelve un Cursor, que es un iterador eficiente
             if criterio:
-
                 results = self.collection.find(criterio)
 
             else:

@@ -6,13 +6,13 @@ def insert_test_data():
     # --- 1. CICLOS ---
     cycle_dao = Cycle_DAO()
     cycles = [
-        Cycle(etiqueta="SMR", name="Sistemas Microinformáticos y Redes"),
-        Cycle(etiqueta="DAM", name="Desarrollo de Aplicaciones Multiplataforma"),
-        Cycle(etiqueta="DAW", name="Desarrollo de Aplicaciones Web"),
-        Cycle(etiqueta="ASIR", name="Administración de Sistemas Informáticos en Red"),
-        Cycle(etiqueta="CE_CIBER", name="Curso de Especialización en Ciberseguridad"),
+        Cycle(_id="SMR", name="Sistemas Microinformáticos y Redes"),
+        Cycle(_id="DAM", name="Desarrollo de Aplicaciones Multiplataforma"),
+        Cycle(_id="DAW", name="Desarrollo de Aplicaciones Web"),
+        Cycle(_id="ASIR", name="Administración de Sistemas Informáticos en Red"),
+        Cycle(_id="CE_CIBER", name="Curso de Especialización en Ciberseguridad"),
         Cycle(
-            etiqueta="CE_IA",
+            _id="CE_IA",
             name="Curso de Especialización en Inteligencia Artificial y Big Data",
         ),
     ]
@@ -22,14 +22,14 @@ def insert_test_data():
     # --- 2. PROFESORES ---
     teacher_dao = Teacher_DAO()
     teachers = [
-        Teacher(dni="12345678A", name="Oscar Profesor", email="oscar@fpdrioja.com"),
-        Teacher(dni="23456789B", name="Maria Experta", email="maria@fpdrioja.com"),
-        Teacher(dni="34567890C", name="Juan Dual", email="juan@fpdrioja.com"),
-        Teacher(dni="45678901D", name="Elena Código", email="elena@fpdrioja.com"),
-        Teacher(dni="56789012E", name="Roberto Redes", email="roberto@fpdrioja.com"),
-        Teacher(dni="67890123F", name="Lucía Lógica", email="lucia@fpdrioja.com"),
-        Teacher(dni="78901234G", name="Andrés Analítica", email="andres@fpdrioja.com"),
-        Teacher(dni="89012345H", name="Sara Seguridad", email="sara@fpdrioja.com"),
+        Teacher(_id="12345678A", name="Oscar Profesor", email="oscar@fpdrioja.com"),
+        Teacher(_id="23456789B", name="Maria Experta", email="maria@fpdrioja.com"),
+        Teacher(_id="34567890C", name="Juan Dual", email="juan@fpdrioja.com"),
+        Teacher(_id="45678901D", name="Elena Código", email="elena@fpdrioja.com"),
+        Teacher(_id="56789012E", name="Roberto Redes", email="roberto@fpdrioja.com"),
+        Teacher(_id="67890123F", name="Lucía Lógica", email="lucia@fpdrioja.com"),
+        Teacher(_id="78901234G", name="Andrés Analítica", email="andres@fpdrioja.com"),
+        Teacher(_id="89012345H", name="Sara Seguridad", email="sara@fpdrioja.com"),
     ]
     for t in teachers:
         teacher_dao.insert(t)
@@ -39,139 +39,137 @@ def insert_test_data():
     modules = [
         # SMR
         Module(
-            etiqueta="MME",
+            _id="MME",
             name="Montaje y Mantenimiento de Equipos",
             cycle="SMR",
             teacher="12345678A",
         ),
         Module(
-            etiqueta="SOM",
+            _id="SOM",
             name="Sistemas Operativos Monopuesto",
             cycle="SMR",
             teacher="56789012E",
         ),
-        Module(etiqueta="RL", name="Redes Locales", cycle="SMR", teacher="56789012E"),
+        Module(_id="RL", name="Redes Locales", cycle="SMR", teacher="56789012E"),
         Module(
-            etiqueta="AO",
+            _id="AO",
             name="Aplicaciones Ofimáticas",
             cycle="SMR",
             teacher="34567890C",
         ),
         # DAM
         Module(
-            etiqueta="SI",
+            _id="SI",
             name="Sistemas Informáticos",
             cycle="DAM",
             teacher="12345678A",
         ),
-        Module(etiqueta="BD", name="Bases de Datos", cycle="DAM", teacher="23456789B"),
-        Module(etiqueta="PROG", name="Programación", cycle="DAM", teacher="12345678A"),
+        Module(_id="BD", name="Bases de Datos", cycle="DAM", teacher="23456789B"),
+        Module(_id="PROG", name="Programación", cycle="DAM", teacher="12345678A"),
         Module(
-            etiqueta="ED",
+            _id="ED",
             name="Entornos de Desarrollo",
             cycle="DAM",
             teacher="45678901D",
         ),
-        Module(etiqueta="AD", name="Acceso a Datos", cycle="DAM", teacher="23456789B"),
+        Module(_id="AD", name="Acceso a Datos", cycle="DAM", teacher="23456789B"),
         Module(
-            etiqueta="DI",
+            _id="DI",
             name="Desarrollo de Interfaces",
             cycle="DAM",
             teacher="45678901D",
         ),
         Module(
-            etiqueta="PMM",
+            _id="PMM",
             name="Programación Multimedia y Dispositivos Móviles",
             cycle="DAM",
             teacher="67890123F",
         ),
         Module(
-            etiqueta="SGE",
+            _id="SGE",
             name="Sistemas de Gestión Empresarial",
             cycle="DAM",
             teacher="67890123F",
         ),
         # DAW
         Module(
-            etiqueta="DWEC",
+            _id="DWEC",
             name="Desarrollo Web Entorno Cliente",
             cycle="DAW",
             teacher="34567890C",
         ),
         Module(
-            etiqueta="DWES",
+            _id="DWES",
             name="Desarrollo Web Entorno Servidor",
             cycle="DAW",
             teacher="23456789B",
         ),
         Module(
-            etiqueta="DAW",
+            _id="DAW",
             name="Despliegue de Aplicaciones Web",
             cycle="DAW",
             teacher="34567890C",
         ),
         Module(
-            etiqueta="DIW",
+            _id="DIW",
             name="Diseño de Interfaces Web",
             cycle="DAW",
             teacher="45678901D",
         ),
         # ASIR
         Module(
-            etiqueta="ASO",
+            _id="ASO",
             name="Administración de Sistemas Operativos",
             cycle="ASIR",
             teacher="12345678A",
         ),
         Module(
-            etiqueta="SRI",
+            _id="SRI",
             name="Servicios de Red e Internet",
             cycle="ASIR",
             teacher="56789012E",
         ),
         Module(
-            etiqueta="IAW",
+            _id="IAW",
             name="Implantación de Aplicaciones Web",
             cycle="ASIR",
             teacher="67890123F",
         ),
         Module(
-            etiqueta="SAD",
+            _id="SAD",
             name="Seguridad y Alta Disponibilidad",
             cycle="ASIR",
             teacher="89012345H",
         ),
         # CE Ciberseguridad
         Module(
-            etiqueta="BRS",
+            _id="BRS",
             name="Bastionado de Redes y Sistemas",
             cycle="CE_CIBER",
             teacher="89012345H",
         ),
+        Module(_id="HE", name="Hacking Ético", cycle="CE_CIBER", teacher="89012345H"),
         Module(
-            etiqueta="HE", name="Hacking Ético", cycle="CE_CIBER", teacher="89012345H"
-        ),
-        Module(
-            etiqueta="AFI",
+            _id="AFI",
             name="Análisis Forense Informático",
             cycle="CE_CIBER",
             teacher="56789012E",
         ),
         # CE IA y Big Data
         Module(
-            etiqueta="MIA",
+            _id="MIA",
             name="Modelos de Inteligencia Artificial",
             cycle="CE_IA",
             teacher="78901234G",
         ),
         Module(
-            etiqueta="SBD",
+            _id="SBD",
             name="Sistemas de Big Data",
             cycle="CE_IA",
             teacher="78901234G",
         ),
         Module(
-            etiqueta="PIAR",
+            _id="PIAR",
             name="Programación de Inteligencia Artificial",
             cycle="CE_IA",
             teacher="78901234G",
@@ -184,21 +182,21 @@ def insert_test_data():
     student_dao = Student_DAO()
     students = [
         Student(
-            dni="00000000A", name="Ana Macario", modules=["SI", "BD", "PROG", "ED"]
+            _id="00000000A", name="Ana Macario", modules=["SI", "BD", "PROG", "ED"]
         ),
         Student(
-            dni="11111111B",
+            _id="11111111B",
             name="Carlos Martinez",
             modules=["DWEC", "DWES", "DAW", "DIW"],
         ),
-        Student(dni="22222222C", name="Beatriz Binario", modules=["SAD", "BRS", "HE"]),
-        Student(dni="33333333D", name="Diego Doner", modules=["MME", "SOM", "RL"]),
-        Student(dni="44444444E", name="Elena Enlace", modules=["MIA", "SBD", "PIAR"]),
+        Student(_id="22222222C", name="Beatriz Binario", modules=["SAD", "BRS", "HE"]),
+        Student(_id="33333333D", name="Diego Doner", modules=["MME", "SOM", "RL"]),
+        Student(_id="44444444E", name="Elena Enlace", modules=["MIA", "SBD", "PIAR"]),
         Student(
-            dni="55555555F", name="Fernando Frame", modules=["AD", "DI", "PMM", "SGE"]
+            _id="55555555F", name="Fernando Frame", modules=["AD", "DI", "PMM", "SGE"]
         ),
-        Student(dni="6666666G", name="Gema Gigabyte", modules=["ASO", "SRI", "IAW"]),
-        Student(dni="9999999J", name="Zaf byte", modules=["ASO", "SRI", "IAW", "TDC"]),
+        Student(_id="6666666G", name="Gema Gigabyte", modules=["ASO", "SRI", "IAW"]),
+        Student(_id="9999999J", name="Zaf byte", modules=["ASO", "SRI", "IAW", "TDC"]),
     ]
     for s in students:
         student_dao.insert(s)
