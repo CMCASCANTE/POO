@@ -6,6 +6,9 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
 
+# Clase para la gestión de las convalidaciones en MongoDB
+# Sigue las pautas de nombre pero no hereda del DAO principal, ya que va a tener
+# métodos específicos
 class Convalidation_DAO:
     def __init__(self, entity_name: str = "convalidations"):
         # Cargamos los secretos desde la clase que hemos definido para ello

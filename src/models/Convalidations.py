@@ -5,6 +5,7 @@ from .ListEntity import ListEntity
 from bson import ObjectId
 
 
+# Clase para la gestión de las convalidaciones
 class Convalidation(ListEntity):
 
     # Constructor de la clase(con los atributos que hemos definido)
@@ -25,6 +26,8 @@ class Convalidation(ListEntity):
         self.modulo: Module = Module(_id=modulo)
         self.nota: str = nota
 
+    # Definimos estado como propiedad para que se calcule automáticamente a partir de la nota,
+    # y que se calcule solo cuando se pida, de modo que se actualice si cambia la nota
     @property
     def estado(self):
         return Status(self.nota)
@@ -44,6 +47,7 @@ class Convalidation(ListEntity):
         # Devolvemos los datos en un dict ya modificados
         return conv_dict
 
+    # Sobreescribimos el método str para mostrarlo como queremos
     def __str__(self):
         return f"{self.modulo} - {self.estado}"
 

@@ -39,9 +39,12 @@ while True:
         # Cargamos la función correspondiente que devuelve la lista con todos los modulos
         lista = logic.get_modules_by_cycle(ciclo)
         # Recorremos la lista de objetos y mostramos cada uno con la función to_list()
-        # Si no hay elementos, no se mostrará nada
-        for mod in lista:
-            print(f"- {mod.to_list()}")
+        if lista:
+            for mod in lista:
+                print(f"- {mod.to_list()}")
+
+        else:
+            print("No se han encontrado módulos para ese ciclo.")
 
     elif opcion == "3":
         # Obtenemos el ID del módulo (en caso de no ser válido no se mostrarán resultados)
@@ -51,7 +54,10 @@ while True:
         # Cargamos la función correspondiente que devuelve el profesor del módulo
         profe = logic.get_teacher_by_module(modulo)
         # Mostramos el profesor con la función to_list() o un mensaje de no encontrado si es None
-        print(f"Profesor: {profe.to_list() if profe else 'No encontrado'}")
+        if profe:
+            print(f"Profesor: {profe.to_list()}")
+        else:
+            print("Profesor no encontrado.")
 
     elif opcion == "4":
         # Obtenemos el ID del módulo (en caso de no ser válido no se mostrarán resultados)
@@ -62,8 +68,11 @@ while True:
         lista = logic.get_students_by_module(modulo)
         # Recorremos la lista de objetos y mostramos cada uno con la función to_list()
         # Si no hay elementos, no se mostrará nada
-        for alumno in lista:
-            print(f"- {alumno.to_list()}")
+        if lista:
+            for alumno in lista:
+                print(f"- {alumno.to_list()}")
+        else:
+            print("No hay estudiantes en ese módulo.")
 
     elif opcion == "5":
         # Obtenemos el ID del alumno (en caso de no ser válido no se mostrarán resultados)
@@ -73,8 +82,11 @@ while True:
         # Cargamos la función correspondiente que devuelve la lista con todos los modulos + ciclos
         lista = logic.get_student_modules_and_cycle(alumno)
         # Recorremos la lista de objetos y mostramos cada uno con la función to_list()
-        for item in lista:
-            print(f"- {item.to_list()}")
+        if lista:
+            for item in lista:
+                print(f"- {item.to_list()}")
+        else:
+            print("No se encontró expediente para ese alumno.")
 
     # Opción extra para ver la quota restante
     elif opcion == "6":

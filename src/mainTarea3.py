@@ -47,8 +47,11 @@ while True:
         ciclo_obj = Cycle(_id=ciclo)
         modulo_obj = Module(_id=modulo)
         lista_alumnos = presentacion.alumnosCicloModulo(ciclo_obj, modulo_obj)
-        print(f"Lista de alúmnos con la convalidación de {modulo} aceptada")
-        print(lista_alumnos)
+        if lista_alumnos:
+            print(f"Lista de alúmnos con la convalidación de {modulo} aceptada")
+            print(lista_alumnos)
+        else:
+            print("No se han encontrado alumnos con esa convalidación.")
 
         input("Pulsa una tecla para continuar...")
 

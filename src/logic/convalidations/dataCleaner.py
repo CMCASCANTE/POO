@@ -3,8 +3,6 @@ import numpy as np
 import re
 from pathlib import Path
 from typing import Optional
-from persistence.persistance import Convalidation_DAO
-from models.models import Convalidation
 
 
 # Clase que normalizará el archivo de convalidaciones
@@ -94,6 +92,7 @@ class DataCleaner:
 
         return label
 
+    # Normalizamos el dataframe para que tenga una estructura uniforme y fácil de manejar
     def normalize(self) -> pd.DataFrame:
         if self.df is None:
             self.load_data()

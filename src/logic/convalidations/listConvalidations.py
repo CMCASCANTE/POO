@@ -1,6 +1,8 @@
 from persistence.persistance import Convalidation_DAO
 
 
+# Clase que se encarga exclusivamente de gestionar la propiedad de la clase Student, que es la lista de convalidaciones.
+# Se encarga de obtener la lista de convalidaciones a través del DAO y devolverla al estudiante
 class ListConvalidations:
 
     def __init__(self):

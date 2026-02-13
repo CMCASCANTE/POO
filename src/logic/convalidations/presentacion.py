@@ -1,11 +1,11 @@
 from persistence.persistance import Convalidation_DAO
 from persistence.persistance import Student_DAO
 from models.models import Cycle, Module, Convalidation, Student
-from bson import ObjectId
 import pandas as pd
 import os
 
 
+# Lógica para la presentación de datos del mainTarea3
 class Presentacion:
 
     # Función para mostrar todos los alumnos que cumplen la condición
@@ -46,7 +46,7 @@ class Presentacion:
 
         for conv in lista_estaminadas:
             # Usamos la etiqueta del módulo como nombre de archivo
-            nombre_modulo = conv.modulo if conv.modulo else "Desconocido"
+            nombre_modulo = str(conv.modulo) if conv.modulo else "Desconocido"
 
             if nombre_modulo not in agrupado:
                 agrupado[nombre_modulo] = []
